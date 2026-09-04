@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrafIQ — AI-Powered ANPR & Vehicle Intelligence Platform</title>
+  <meta name="description" content="Intelligence that connects the dots. TrafIQ links vehicle detections across city CCTV & ANPR camera networks for unified traffic intelligence and journey reconstruction.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- CINEMATIC SYSTEM ACTIVATION OVERLAY -->
+  <div class="system-boot-overlay" id="system-boot-overlay">
+    <!-- INITIAL UNPOWERED STATE (TOGGLE SWITCH) -->
+    <div class="boot-switch-container" id="boot-switch-container">
+      <div class="boot-logo-preview">
+        <img src="logo.png" alt="TrafIQ Logo" class="boot-preview-logo">
+      </div>
+      <h2 class="boot-switch-title">TURN ON THE SYSTEM</h2>
+      
+      <label class="power-toggle-switch">
+        <input type="checkbox" id="system-power-switch">
+        <span class="power-toggle-slider">
+          <span class="power-toggle-knob"></span>
+        </span>
+      </label>
+
+      <div class="boot-status-pill offline" id="boot-status-pill">
+        <span class="status-offline-dot"></span>
+        <span id="boot-status-text">● SYSTEM OFFLINE</span>
+      </div>
+    </div>
+
+    <!-- BOOT SEQUENCE DISPLAY STAGE (5-SECOND ANIMATION) -->
+    <div class="boot-stage-display hidden" id="boot-stage-display">
+      <canvas id="boot-sequence-canvas"></canvas>
+      
+      <div class="boot-hud-readout">
+        <div class="boot-phase-title" id="boot-phase-title">INITIALIZING TRAFIQ CORE...</div>
+        <div class="boot-terminal-log" id="boot-terminal-log">
+          <!-- Terminal logs append dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cyber Vehicle Highway Background Canvas -->
+  <canvas id="vehicle-bg-canvas"></canvas>
+  <div class="bg-grid-overlay"></div>
+  <div class="vehicle-scanline-overlay"></div>
+
+  <!-- NAVIGATION BAR: CCTV CAMERA NETWORK NAVIGATION RAIL -->
+  <nav class="navbar" id="navbar">
+    <div class="container navbar-container">
+      
+      <!-- LEFT BRAND & CCTV NETWORK STATUS AREA -->
+      <div class="brand-group">
+        <a href="#" class="logo-brand">
+          <img src="logo.png" alt="TrafIQ Logo" class="brand-logo-img">
+        </a>
+        <div class="network-status-badge">
+          <span class="status-pulse"></span>
+          <span class="status-text">NETWORK ONLINE</span>
+        </div>
+      </div>
+
+      <!-- CENTER: CCTV CAMERA NETWORK RAIL (ALL 8 ITEMS) -->
+      <div class="cam-network-rail-container">
+        <div class="cam-rail-track-line">
+          <div class="cam-rail-active-line" id="cam-rail-active-line"></div>
+          <div class="cam-rail-data-pulse" id="cam-rail-data-pulse"></div>
+        </div>
+        
+        <ul class="cam-network-links">
+          <li class="cam-node-item active" data-section="problem">
+            <a href="#problem">
+              <div class="cam-lens-node">
+                <span class="lens-aperture"></span>
+                <span class="lens-rec-dot"></span>
+                <span class="lens-scan-sweep"></span>
+              </div>
+              <span class="cam-node-label">Problem</span>
+            </a>
+          </li>
+          <li class="cam-node-item" data-section="solution">
+            <a href="#solution">
+              <div class="cam-lens-node">
+                <span class="lens-aperture"></span>
+                <span class="lens-rec-dot"></span>
+                <span class="lens-scan-sweep"></span>
+              </div>
+              <span class="cam-node-label">Solution</span>
+            </a>
+          </li>
+          <li class="cam-node-item" data-section="how-it-works">
+            <a href="#how-it-works">
+              <div class="cam-lens-node">
+                <span class="lens-aperture"></span>
+                <span class="lens-rec-dot"></span>
+                <span class="lens-scan-sweep"></span>
+              </div>
+              <span class="cam-node-label">How It Works</span>
+            </a>
+          </li>
+          <li class="cam-node-item" data-section="journey">
+            <a href="#journey">
+              <div class="cam-lens-node">
+                <span class="lens-aperture"></span>
+                <span class="lens-rec-dot"></span>
+                <span class="lens-scan-sweep"></span>
+              </div>
+              <span class="cam-node-label">Journey</span>
+            </a>
+          </li>
+          <li class="cam-node-item" data-section="demo">
+            <a href="#demo">
+              <div class="cam-lens-node">
+                <span class="lens-aperture"></span>
+                <span class="lens-rec-dot"></span>
+                <span class="lens-scan-sweep"></span>
+              </div>
+              <span class="cam-node-label">Demo</span>
+            </a>
+          </li>
+          <li class="cam-node-item" data-section="scalability">
+            <a href="#scalability">
+              <div class="cam-lens-node">
+                <span class="lens-aperture"></span>
+                <span class="lens-rec-dot"></span>
+                <span class="lens-scan-sweep"></span>
+              </div>
+              <span class="cam-node-label">Scalability</span>
+            </a>
+          </li>
+          <li class="cam-node-item" data-section="features">
+            <a href="#features">
+              <div class="cam-lens-node">
+                <span class="lens-aperture"></span>
+                <span class="lens-rec-dot"></span>
+                <span class="lens-scan-sweep"></span>
+              </div>
+              <span class="cam-node-label">Features</span>
+            </a>
+          </li>
+          <li class="cam-node-item" data-section="architecture">
+            <a href="#architecture">
+              <div class="cam-lens-node">
+                <span class="lens-aperture"></span>
+                <span class="lens-rec-dot"></span>
+                <span class="lens-scan-sweep"></span>
+              </div>
+              <span class="cam-node-label">Architecture</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- RIGHT CTA: LAUNCH DEMO -->
+      <div class="nav-actions">
+        <a href="#demo" class="btn-launch-demo" id="btn-launch-demo">
+          <span class="play-icon">▶</span> LAUNCH DEMO
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Thin bottom signal/data line -->
+    <div class="navbar-bottom-signal-line"></div>
+  </nav>
+
+  <!-- 1. HERO SECTION -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <img src="logo.png" alt="TrafIQ Official Logo" class="hero-logo-img">
+          <div class="badge">
+            <span class="badge-pulse"></span> Next-Gen Smart City Intelligence
+          </div>
+          <h1 class="hero-title">
+            Connecting the city's <span class="text-gradient">traffic intelligence.</span>
+          </h1>
+          <div class="hero-tagline">
+            <i data-lucide="sparkles"></i> “Intelligence that connects the dots”
+          </div>
+          <p class="hero-desc">
+            TrafIQ breaks camera silos by dynamically correlating ANPR detections, spatial-temporal movements, and vehicle attributes across entire urban camera networks in real-time.
+          </p>
+          <div class="hero-buttons">
+            <a href="#demo" class="btn btn-primary">
+              <i data-lucide="play-circle"></i> Watch Demo
+            </a>
+            <a href="#solution" class="btn btn-secondary">
+              <i data-lucide="cpu"></i> Explore Solution
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <canvas id="hero-canvas"></canvas>
+          <div class="hero-hud-overlay">
+            <div class="hud-stat">
+              <i data-lucide="activity" style="color: #00F0FF;"></i> NODES ACTIVE: 48
+            </div>
+            <div class="hud-stat">
+              <i data-lucide="zap" style="color: #00E676;"></i> LATENCY: 12ms
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. THE PROBLEM -->
+  <section id="problem">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">// Urban Surveillance Gap</span>
+        <h2 class="section-title">The Fragmented Traffic Data Crisis</h2>
+        <p class="section-desc">
+          Modern smart cities operate thousands of CCTV & ANPR cameras, yet data remains trapped in isolated streams. Tracking a target across time and space is manual, slow, and error-prone.
+        </p>
+      </div>
+
+      <div class="problem-visual">
+        <div class="glass-card problem-card">
+          <span class="camera-broken-badge">SILO 01</span>
+          <div class="problem-icon-wrapper">
+            <i data-lucide="camera-off" size="32"></i>
+          </div>
+          <h3>Camera 01: North Gate</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
+            Captures license plate at 14:02:10. Data remains stored locally in isolated NVR storage. No context of prior locations.
+          </p>
+        </div>
+
+        <div class="glass-card problem-card">
+          <span class="camera-broken-badge">SILO 02</span>
+          <div class="problem-icon-wrapper">
+            <i data-lucide="camera-off" size="32"></i>
+          </div>
+          <h3>Camera 02: Central Junction</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
+            Captures vehicle at 14:08:45. Zero correlation with Camera 01. Operators cannot automatically bridge the path gap.
+          </p>
+        </div>
+
+        <div class="glass-card problem-card">
+          <span class="camera-broken-badge">SILO 03</span>
+          <div class="problem-icon-wrapper">
+            <i data-lucide="camera-off" size="32"></i>
+          </div>
+          <h3>Camera 03: Highway Exit</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
+            Captures vehicle at 14:15:30. No unified identity timeline. Cross-camera tracking requires hours of manual video scrubbing.
+          </p>
+        </div>
+      </div>
+
+      <div class="silo-disconnect">
+        <i data-lucide="alert-triangle" style="color: var(--red-alert);"></i>
+        <span>DISCONNECTED DATA PIPELINES: Camera 1 ❌ Camera 2 ❌ Camera 3 → Fragmented Intelligence & Lost Vehicle Tracks</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. OUR SOLUTION -->
+  <section id="solution" style="background: rgba(10, 18, 36, 0.4);">
+    <div class="container">
+      <div class="solution-grid">
+        <div>
+          <span class="section-tag">// Spatial-Temporal AI Mesh</span>
+          <h2 class="section-title">Connected Vehicle Intelligence</h2>
+          <p class="section-desc" style="margin-bottom: 24px;">
+            TrafIQ unifies disconnected camera sensors into a singular intelligent neural graph. By cross-correlating vehicle identities, timestamps, exact GPS coordinates, and visual attributes, TrafIQ stitches together complete journeys instantly.
+          </p>
+
+          <div class="solution-features">
+            <div class="solution-mini-card">
+              <h4><i data-lucide="fingerprint"></i> Vehicle Identity</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">High-precision ANPR and visual hash correlation for 99.4% matching accuracy.</p>
+            </div>
+            <div class="solution-mini-card">
+              <h4><i data-lucide="clock"></i> Spatial-Temporal Link</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Calculates velocity vectors and expected travel intervals between camera nodes.</p>
+            </div>
+            <div class="solution-mini-card">
+              <h4><i data-lucide="map-pin"></i> Multi-Camera Graph</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Instant cross-camera correlation over city-wide CCTV networks.</p>
+            </div>
+            <div class="solution-mini-card">
+              <h4><i data-lucide="shield-check"></i> Automated Alerts</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Immediate hotlist detection and trajectory anomaly detection.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="correlation-demo-card">
+          <div class="plate-tracker-hud">
+            <div>
+              <span style="color: var(--cyan-primary); font-size: 0.8rem; font-family: var(--font-mono);">TARGET ACQUIRED</span>
+              <div class="plate-number" style="margin-top: 4px;">MH 12 AB 4921</div>
+            </div>
+            <div style="text-align: right;">
+              <span class="badge" style="background: rgba(0,230,118,0.1); border-color: var(--green-status); color: var(--green-status);">
+                <i data-lucide="check-circle" size="14"></i> 99.8% CORRELATED
+              </span>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; font-family: var(--font-mono); font-size: 0.85rem;">
+            <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 6px;">
+              <span style="color: var(--text-muted);">Last Camera:</span>
+              <span style="color: var(--cyan-primary);">CAM-108 (Downtown Main)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 6px;">
+              <span style="color: var(--text-muted);">Speed Vector:</span>
+              <span style="color: #fff;">54 km/h (Normal Flow)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 6px;">
+              <span style="color: var(--text-muted);">Predicted Next Node:</span>
+              <span style="color: var(--purple-accent);">CAM-112 (East Expressway)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. HOW IT WORKS -->
+  <section id="how-it-works">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">// Data Processing Engine</span>
+        <h2 class="section-title">How TrafIQ Operates</h2>
+        <p class="section-desc">From raw RTSP video streams to real-time city-wide intelligence in 5 automated steps.</p>
+      </div>
+
+      <div class="pipeline-flow">
+        <div class="pipeline-step">
+          <div class="step-number">01</div>
+          <div class="step-icon"><i data-lucide="video"></i></div>
+          <h3 class="step-title">Capture</h3>
+          <p class="step-desc">High-frequency frame ingestion from RTSP/IP camera streams across city nodes.</p>
+        </div>
+
+        <div class="pipeline-step">
+          <div class="step-number">02</div>
+          <div class="step-icon"><i data-lucide="scan"></i></div>
+          <h3 class="step-title">Detect</h3>
+          <p class="step-desc">YOLO-powered object detection identifies vehicles, make, model, and color.</p>
+        </div>
+
+        <div class="pipeline-step">
+          <div class="step-number">03</div>
+          <div class="step-icon"><i data-lucide="credit-card"></i></div>
+          <h3 class="step-title">Recognize</h3>
+          <p class="step-desc">Deep OCR ANPR engine extracts registration plate numbers with 99%+ accuracy.</p>
+        </div>
+
+        <div class="pipeline-step">
+          <div class="step-number">04</div>
+          <div class="step-icon"><i data-lucide="network"></i></div>
+          <h3 class="step-title">Connect</h3>
+          <p class="step-desc">Spatial-temporal graph matches detections across timestamp and camera locations.</p>
+        </div>
+
+        <div class="pipeline-step">
+          <div class="step-number">05</div>
+          <div class="step-icon"><i data-lucide="line-chart"></i></div>
+          <h3 class="step-title">Analyze</h3>
+          <p class="step-desc">Real-time alerts, journey mapping, traffic velocity, and anomaly scoring.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. VEHICLE JOURNEY RECONSTRUCTION -->
+  <section id="journey">
+    <div class="container">
+      <div class="journey-container">
+        <div class="section-header text-center" style="margin-bottom: 30px;">
+          <span class="section-tag">// Spatial-Temporal Reconstruction</span>
+          <h2 class="section-title">Vehicle Journey Simulation</h2>
+        </div>
+
+        <div class="journey-quote">
+          “One vehicle. Multiple cameras. <span>One connected journey.</span>”
+        </div>
+
+        <div class="journey-timeline-interactive">
+          <div class="timeline-track-line"></div>
+          <div class="timeline-nodes-grid">
+            <div class="timeline-node-card active" id="node-1">
+              <div class="node-cam-header">
+                <span><i data-lucide="camera"></i> CAM-01</span>
+                <span>14:02:10 IST</span>
+              </div>
+              <div class="plate-number" style="font-size: 1rem; margin: 10px 0;">MH 12 AB 4921</div>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Location: Gateway North Junction</p>
+              <div style="margin-top: 10px; font-size: 0.8rem; color: var(--cyan-primary);">Speed: 48 km/h</div>
+            </div>
+
+            <div class="timeline-node-card active" id="node-2">
+              <div class="node-cam-header">
+                <span><i data-lucide="camera"></i> CAM-02</span>
+                <span>14:08:45 IST</span>
+              </div>
+              <div class="plate-number" style="font-size: 1rem; margin: 10px 0;">MH 12 AB 4921</div>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Location: Tech Park Flyover</p>
+              <div style="margin-top: 10px; font-size: 0.8rem; color: var(--cyan-primary);">Speed: 52 km/h</div>
+            </div>
+
+            <div class="timeline-node-card active" id="node-3">
+              <div class="node-cam-header">
+                <span><i data-lucide="camera"></i> CAM-03</span>
+                <span>14:15:30 IST</span>
+              </div>
+              <div class="plate-number" style="font-size: 1rem; margin: 10px 0;">MH 12 AB 4921</div>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Location: Expressway Toll Plaza</p>
+              <div style="margin-top: 10px; font-size: 0.8rem; color: var(--cyan-primary);">Speed: 65 km/h</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TWO-PANEL INTERACTIVE CCTV SURVEILLANCE SYSTEM -->
+        <div class="cctv-two-panel-system">
+          
+          <!-- LEFT PANEL: INTERACTIVE ROAD & MOVABLE CCTV CAMERA -->
+          <div class="cctv-panel cctv-left-panel">
+            <div class="panel-header-bar">
+              <span class="panel-title"><i data-lucide="move" size="14"></i> DRAG CAMERA / AIM VIEWING CONE</span>
+              <span class="instruction-pill"><span class="badge-pulse"></span> SENSOR ACTIVE</span>
+            </div>
+            
+            <div class="cctv-road-stage" id="cctv-road-stage">
+              <canvas id="cctv-interactive-road-canvas"></canvas>
+
+              <!-- Draggable CCTV Camera Pointer Node -->
+              <div class="draggable-cctv-node" id="cctv-drag-node">
+                <div class="cctv-mount-base"></div>
+                <div class="cctv-head-housing" id="cctv-head-housing">
+                  <div class="cctv-lens-eye"></div>
+                  <div class="cctv-laser-emitter"></div>
+                </div>
+                <div class="cctv-drag-tooltip">
+                  <i data-lucide="grab" size="12"></i> Drag Camera
+                </div>
+              </div>
+            </div>
+
+            <div class="cctv-left-controls">
+              <div class="control-row">
+                <label><i data-lucide="rotate-cw" size="14"></i> Rotate Angle:</label>
+                <input type="range" id="cctv-pan-slider" min="-75" max="75" value="0">
+              </div>
+              <div class="cam-preset-btns">
+                <button class="preset-btn active" id="preset-cam-1">Aim CAM-01</button>
+                <button class="preset-btn" id="preset-cam-2">Aim CAM-02</button>
+                <button class="preset-btn" id="preset-cam-3">Aim CAM-03</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT PANEL: LIVE CONTROL ROOM SURVEILLANCE MONITOR -->
+          <div class="cctv-panel cctv-right-panel">
+            <div class="panel-header-bar">
+              <div class="cctv-status">
+                <span class="cctv-rec-pill"><span class="rec-dot"></span> LIVE REC</span>
+                <span class="cctv-cam-title" id="cctv-cam-title">CAM-01 // GATEWAY NORTH</span>
+              </div>
+              <div class="cctv-meta">
+                <span id="cctv-live-clock">14:02:10 IST</span>
+                <span class="cctv-fps">30.0 FPS</span>
+              </div>
+            </div>
+
+            <div class="cctv-screen-stage">
+              <canvas id="cctv-surveillance-canvas"></canvas>
+
+              <!-- Scanline & Crosshairs Overlay -->
+              <div class="cctv-grid-overlay"></div>
+              <div class="cctv-corner-bracket top-left"></div>
+              <div class="cctv-corner-bracket top-right"></div>
+              <div class="cctv-corner-bracket bottom-left"></div>
+              <div class="cctv-corner-bracket bottom-right"></div>
+              <div class="cctv-center-crosshair">+</div>
+
+              <!-- Dynamic ANPR Match Telemetry Overlay Card -->
+              <div class="cctv-anpr-card" id="cctv-anpr-card">
+                <div class="anpr-card-badge">
+                  <span class="badge-pulse"></span> ANPR MATCH DETECTED
+                </div>
+                <div class="anpr-plate-display" id="cctv-hud-plate">MH 12 AB 4921</div>
+                <div class="anpr-telemetry-grid">
+                  <div class="telemetry-item">
+                    <span class="t-label">CAMERA:</span>
+                    <span class="t-val" id="cctv-hud-cam">CAM-01</span>
+                  </div>
+                  <div class="telemetry-item">
+                    <span class="t-label">TIMESTAMP:</span>
+                    <span class="t-val" id="cctv-hud-time">14:02:10 IST</span>
+                  </div>
+                  <div class="telemetry-item">
+                    <span class="t-label">LOCATION:</span>
+                    <span class="t-val" id="cctv-hud-loc">Gateway North Junction</span>
+                  </div>
+                  <div class="telemetry-item">
+                    <span class="t-label">SPEED:</span>
+                    <span class="t-val" id="cctv-hud-speed">48 km/h</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Empty Road / Searching Banner Overlay -->
+              <div class="cctv-searching-status hidden" id="cctv-searching-status">
+                <i data-lucide="radar" size="18" class="spin-icon"></i> SCANNING FIELD OF VIEW — NO TARGET LOCK
+              </div>
+            </div>
+
+            <div class="cctv-bottom-bar">
+              <button class="cctv-feed-btn active" id="cctv-tab-1" data-feed="1">
+                <i data-lucide="video" size="14"></i> CAM-01 (14:02:10)
+              </button>
+              <button class="cctv-feed-btn" id="cctv-tab-2" data-feed="2">
+                <i data-lucide="video" size="14"></i> CAM-02 (14:08:45)
+              </button>
+              <button class="cctv-feed-btn" id="cctv-tab-3" data-feed="3">
+                <i data-lucide="video" size="14"></i> CAM-03 (14:15:30)
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. DEMO SECTION -->
+  <section id="demo">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">// Platform Demonstration</span>
+        <h2 class="section-title">TrafIQ Command Center Demo</h2>
+        <p class="section-desc">Experience our high-throughput ANPR engine and cross-camera correlation UI in action.</p>
+      </div>
+
+      <div class="demo-player-container">
+        <div class="demo-screen-placeholder" id="demo-screen-trigger">
+          <div class="demo-play-btn">
+            <i data-lucide="play" size="40" style="margin-left: 4px;"></i>
+          </div>
+          <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Click to PlaytrafIQ Demo Video</h3>
+          <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 480px;">
+            [ Demonstration Video Embed Placeholder — MP4 / HLS Stream Compatible ]
+          </p>
+        </div>
+
+        <div class="demo-hud-controls">
+          <div><i data-lucide="shield" style="color: var(--cyan-primary);"></i> MODEL: TrafIQ-v2.4-Core</div>
+          <div><i data-lucide="sliders"></i> ANPR THRESHOLD: 98.5%</div>
+          <div><i data-lucide="radio" style="color: var(--green-status);"></i> STATUS: SIMULATING STREAM</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. SCALABILITY -->
+  <section id="scalability" style="background: rgba(10, 18, 36, 0.3);">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">// Built for Scale</span>
+        <h2 class="section-title">Elastic Camera Network Scale</h2>
+        <p class="section-desc">Engineered with microservices architecture to easily scale from single intersections to metropolis-wide camera meshes.</p>
+      </div>
+
+      <div class="scalability-matrix">
+        <div class="scale-card">
+          <div class="scale-number">PROTOTYPE</div>
+          <div class="scale-label">Single Corridor</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">1-3 Cameras test node deployment with localized ANPR parsing.</p>
+        </div>
+
+        <div class="scale-card">
+          <div class="scale-number">10 CAMS</div>
+          <div class="scale-label">Key Intersections</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">District-level monitoring with basic spatial correlation.</p>
+        </div>
+
+        <div class="scale-card">
+          <div class="scale-number">100 CAMS</div>
+          <div class="scale-label">Urban Sector</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">City sector tracking with 50,000+ daily vehicle correlations.</p>
+        </div>
+
+        <div class="scale-card featured">
+          <div class="scale-number">1,000+ CAMS</div>
+          <div class="scale-label">Smart Metropolis</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Full metropolitan mesh, sub-second global queries, and distributed edge AI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. KEY FEATURES -->
+  <section id="features">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">// Platform Capabilities</span>
+        <h2 class="section-title">Core Intelligence Features</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="glass-card feature-card">
+          <div class="feature-icon"><i data-lucide="cpu"></i></div>
+          <h3>Vehicle Intelligence</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Automated classification of vehicle make, model, color, type, and speed estimation.</p>
+        </div>
+
+        <div class="glass-card feature-card">
+          <div class="feature-icon"><i data-lucide="route"></i></div>
+          <h3>Journey Reconstruction</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Connects sequential camera hits to generate exact route histories and playback.</p>
+        </div>
+
+        <div class="glass-card feature-card">
+          <div class="feature-icon"><i data-lucide="scan-line"></i></div>
+          <h3>High-Speed ANPR</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Sub-50ms plate extraction supporting high speeds, low-light, and adverse weather conditions.</p>
+        </div>
+
+        <div class="glass-card feature-card">
+          <div class="feature-icon"><i data-lucide="bar-chart-3"></i></div>
+          <h3>Traffic Analytics</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Density metrics, flow rate heatmaps, bottlenecks, and average corridor velocity analytics.</p>
+        </div>
+
+        <div class="glass-card feature-card">
+          <div class="feature-icon"><i data-lucide="bell-ring"></i></div>
+          <h3>Intelligent Hotlist Alerts</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Instant push notifications when wanted, stolen, or uninsured vehicles pass any camera node.</p>
+        </div>
+
+        <div class="glass-card feature-card">
+          <div class="feature-icon"><i data-lucide="search"></i></div>
+          <h3>Historical Query Engine</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Search millions of historical detections by partial plate, time window, or geographic bounding box.</p>
+        </div>
+
+        <div class="glass-card feature-card">
+          <div class="feature-icon"><i data-lucide="activity"></i></div>
+          <h3>Network Monitoring</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Real-time camera health telemetry, downtime alerts, and stream latency diagnostics.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. ACCESS & PRIVACY -->
+  <section id="access-privacy">
+    <div class="container">
+      <div class="access-privacy-wrapper">
+        <div class="section-header text-center" style="margin-bottom: 30px;">
+          <span class="section-tag">// Security & Privacy Framework</span>
+          <h2 class="section-title">Role-Based Access Control</h2>
+          <p class="section-desc">Strict data governance ensures public privacy while empowering authorized law enforcement.</p>
+        </div>
+
+        <div class="role-tabs">
+          <button class="role-tab active" data-role="public">Public Level</button>
+          <button class="role-tab" data-role="authorities">Traffic Authorities</button>
+          <button class="role-tab" data-role="admin">System Admin</button>
+        </div>
+
+        <div class="role-content-display">
+          <div>
+            <h3 id="role-title" style="font-size: 1.6rem; color: var(--cyan-primary); margin-bottom: 12px;">Public Access Tier</h3>
+            <p id="role-desc" style="color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;">
+              Provides aggregated traffic density, general congestion indicators, and average corridor travel times. License plates and vehicle identities are strictly masked and anonymized.
+            </p>
+            <div style="display: flex; gap: 12px; font-family: var(--font-mono); font-size: 0.85rem;">
+              <span style="color: var(--green-status);"><i data-lucide="shield-check" size="16"></i> GDPR Compliant</span>
+              <span style="color: var(--cyan-primary);"><i data-lucide="eye-off" size="16"></i> Identity Blur Active</span>
+            </div>
+          </div>
+
+          <div class="glass-card" style="padding: 24px;">
+            <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--cyan-primary); margin-bottom: 10px;">PERMISSIONS MATRIX</div>
+            <ul id="role-permissions" style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.9rem;">
+              <li style="display: flex; align-items: center; gap: 8px;"><i data-lucide="check" color="#00E676" size="16"></i> Real-time City Traffic Map</li>
+              <li style="display: flex; align-items: center; gap: 8px;"><i data-lucide="check" color="#00E676" size="16"></i> Aggregated Speed Heatmaps</li>
+              <li style="display: flex; align-items: center; gap: 8px; color: var(--text-dim);"><i data-lucide="x" color="#ff4757" size="16"></i> Vehicle Plate Search (Blocked)</li>
+              <li style="display: flex; align-items: center; gap: 8px; color: var(--text-dim);"><i data-lucide="x" color="#ff4757" size="16"></i> Individual Route Playback (Blocked)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. SYSTEM ARCHITECTURE -->
+  <section id="architecture">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">// High-Level Design</span>
+        <h2 class="section-title">System Architecture</h2>
+        <p class="section-desc">Distributed edge-to-cloud data flow designed for fault tolerance and sub-second response.</p>
+      </div>
+
+      <div class="architecture-diagram">
+        <div class="arch-node">
+          <i data-lucide="camera" size="28" style="color: var(--cyan-primary); margin-bottom: 8px;"></i>
+          <h4 style="font-size: 0.95rem;">CCTV / ANPR Nodes</h4>
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">RTSP Streams</p>
+        </div>
+
+        <div class="arch-connector"><i data-lucide="arrow-right"></i></div>
+
+        <div class="arch-node">
+          <i data-lucide="cpu" size="28" style="color: var(--cyan-primary); margin-bottom: 8px;"></i>
+          <h4 style="font-size: 0.95rem;">AI Edge Parsing</h4>
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">YOLO + Deep OCR</p>
+        </div>
+
+        <div class="arch-connector"><i data-lucide="arrow-right"></i></div>
+
+        <div class="arch-node">
+          <i data-lucide="database" size="28" style="color: var(--cyan-primary); margin-bottom: 8px;"></i>
+          <h4 style="font-size: 0.95rem;">Kafka & Data Layer</h4>
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Distributed Event Ingestion</p>
+        </div>
+
+        <div class="arch-connector"><i data-lucide="arrow-right"></i></div>
+
+        <div class="arch-node">
+          <i data-lucide="git-merge" size="28" style="color: var(--cyan-primary); margin-bottom: 8px;"></i>
+          <h4 style="font-size: 0.95rem;">Vehicle Correlation</h4>
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Graph Matching Engine</p>
+        </div>
+
+        <div class="arch-connector"><i data-lucide="arrow-right"></i></div>
+
+        <div class="arch-node">
+          <i data-lucide="layout-dashboard" size="28" style="color: var(--cyan-primary); margin-bottom: 8px;"></i>
+          <h4 style="font-size: 0.95rem;">Analytics Dashboard</h4>
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Law Enforcement UI</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. IMPACT & APPLICATIONS -->
+  <section id="applications" style="background: rgba(10, 18, 36, 0.4);">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">// Real-World Applications</span>
+        <h2 class="section-title">Impact & Deployment Use Cases</h2>
+      </div>
+
+      <div class="impact-grid">
+        <div class="glass-card impact-card">
+          <div class="impact-icon"><i data-lucide="navigation"></i></div>
+          <div>
+            <h4>Traffic Management</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Dynamic signal timing based on real-time vehicle counts.</p>
+          </div>
+        </div>
+
+        <div class="glass-card impact-card">
+          <div class="impact-icon"><i data-lucide="shield-alert"></i></div>
+          <div>
+            <h4>Stolen Vehicle Tracking</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Automated hotlist alerts for police dispatch units.</p>
+          </div>
+        </div>
+
+        <div class="glass-card impact-card">
+          <div class="impact-icon"><i data-lucide="file-search"></i></div>
+          <div>
+            <h4>Incident Investigation</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Instant reconstruction of hit-and-run escape paths.</p>
+          </div>
+        </div>
+
+        <div class="glass-card impact-card">
+          <div class="impact-icon"><i data-lucide="alert-octagon"></i></div>
+          <div>
+            <h4>Violation Analysis</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Red-light and wrong-way vehicle movement detection.</p>
+          </div>
+        </div>
+
+        <div class="glass-card impact-card">
+          <div class="impact-icon"><i data-lucide="activity"></i></div>
+          <div>
+            <h4>Congestion Analytics</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Identify bottlenecks before traffic gridlock occurs.</p>
+          </div>
+        </div>
+
+        <div class="glass-card impact-card">
+          <div class="impact-icon"><i data-lucide="siren"></i></div>
+          <div>
+            <h4>Emergency Response</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Clear green corridors for ambulances and fire trucks.</p>
+          </div>
+        </div>
+
+        <div class="glass-card impact-card">
+          <div class="impact-icon"><i data-lucide="map"></i></div>
+          <div>
+            <h4>Urban Planning</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Long-term traffic pattern datasets for road expansions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. FUTURE SCOPE -->
+  <section id="future">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">// Roadmap & Vision</span>
+        <h2 class="section-title">Future Horizons</h2>
+      </div>
+
+      <div class="future-grid">
+        <div class="glass-card future-card">
+          <h3>Predictive Analytics</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 8px;">
+            AI models forecasting traffic jams 30 minutes before they happen using historical trend correlation.
+          </p>
+        </div>
+
+        <div class="glass-card future-card">
+          <h3>Edge AI Processing</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 8px;">
+            Deploying low-power neural chips inside smart camera housings for zero-latency local detection.
+          </p>
+        </div>
+
+        <div class="glass-card future-card">
+          <h3>Advanced Vehicle Attributes</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 8px;">
+            Recognizing bumper damage, commercial roof racks, and custom stickers for 100% unique identification.
+          </p>
+        </div>
+
+        <div class="glass-card future-card">
+          <h3>City Mesh Deployment</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 8px;">
+            Inter-city federation enabling cross-state stolen vehicle tracking across national highway grids.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <a href="#" class="logo-brand">
+          <img src="logo.png" alt="TrafIQ Logo" class="brand-logo-img" style="height: 36px;">
+        </a>
+
+        <div style="display: flex; gap: 20px; font-size: 0.88rem; color: var(--text-muted);">
+          <span><i data-lucide="check-circle" size="14" color="#00E676"></i> System Operational</span>
+          <span><i data-lucide="lock" size="14" color="#00F0FF"></i> Encrypted Telemetry</span>
+        </div>
+      </div>
+
+      <div class="footer-copy">
+        &copy; 2026 TrafIQ Traffic Intelligence Platform. Designed for Smart Cities & Smart India Hackathon.
+      </div>
+    </div>
+  </footer>
+
+  <!-- DEMO VIDEO MODAL PLACEHOLDER -->
+  <div class="modal-overlay" id="video-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="modal-close-btn">&times;</button>
+      <h3 style="color: var(--cyan-primary); margin-bottom: 16px;">TrafIQ ANPR Platform Demo</h3>
+      <div style="aspect-ratio: 16/9; background: #000; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: 1px solid var(--border-cyan);">
+        <p style="color: var(--text-muted); text-align: center; padding: 20px;">
+          [ Insert actual demo video URL here: &lt;iframe src="..."&gt; or &lt;video src="..."&gt; ]
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
