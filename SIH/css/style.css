@@ -2155,6 +2155,68 @@ section {
     flex-direction: column;
     text-align: center;
   }
+
+  /* Explicit Mobile Reflow Rules (< 768px) */
+  .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: clamp(14px, 4vw, 20px) !important;
+    padding-right: clamp(14px, 4vw, 20px) !important;
+  }
+
+  .hero-grid,
+  .solution-grid,
+  .solution-features,
+  .cctv-two-panel-system,
+  .role-content-display,
+  .problem-visual,
+  .timeline-nodes-grid,
+  .scalability-matrix,
+  .features-grid,
+  .impact-grid,
+  .future-grid,
+  .team-grid,
+  .pipeline-flow {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+  }
+
+  .hero-content,
+  .hero-visual,
+  .cctv-panel,
+  .access-privacy-wrapper,
+  .scale-card,
+  .feature-card,
+  .impact-card,
+  .future-card,
+  .team-card {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .hero-buttons {
+    width: 100% !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .hero-buttons .btn {
+    width: 100% !important;
+  }
+
+  .architecture-diagram {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  .arch-node {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .arch-connector {
+    transform: rotate(90deg) !important;
+  }
 }
 
 /* --------------------------------------------------------------------------
