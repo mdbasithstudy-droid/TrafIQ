@@ -2050,45 +2050,101 @@ section {
 }
 
 /* ==========================================================================
-   15. PROGRESSIVE MEDIA QUERY BREAKPOINTS
+   15. AUTHORITATIVE RESPONSIVE BREAKPOINTS (ROBOCHIPX ARCHITECTURE)
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   Small Mobile Devices (< 480px)
+   Mobile Devices (< 768px)
    -------------------------------------------------------------------------- */
-@media (max-width: 479px) {
+@media (max-width: 768px) {
+  /* Global Page & Container Width Reset */
+  html,
+  body {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box !important;
+  }
+
+  .main,
+  section,
+  .container,
+  .access-privacy-wrapper,
+  .cctv-panel,
+  .hero-content,
+  .hero-visual {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  section {
+    padding-top: 50px !important;
+    padding-bottom: 50px !important;
+  }
+
+  /* Universal 1-Column Mobile Reflow */
+  .hero-grid,
+  .problem-visual,
+  .solution-grid,
+  .solution-features,
+  .cctv-two-panel-system,
+  .role-content-display,
+  .timeline-nodes-grid,
+  .scalability-matrix,
+  .features-grid,
+  .impact-grid,
+  .future-grid,
+  .team-grid,
+  .pipeline-flow {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+  }
+
+  /* Typography Adjustments */
+  .hero-title {
+    font-size: clamp(2rem, 8vw, 2.3rem) !important;
+    letter-spacing: -0.5px !important;
+  }
+
+  .hero-tagline {
+    font-size: 1rem !important;
+  }
+
+  .section-title {
+    font-size: clamp(1.6rem, 6vw, 1.8rem) !important;
+  }
+
+  /* Hero & Buttons Reflow */
+  .hero-buttons,
+  .hero-actions {
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+
   .hero-buttons .btn {
-    width: 100%;
+    width: 100% !important;
+    max-width: 360px !important;
   }
 
-  .cctv-anpr-card {
-    position: relative;
-    top: auto;
-    right: auto;
-    width: 100%;
-    margin-top: 12px;
-  }
-
-  .cam-preset-btns {
-    flex-direction: column;
-  }
-
-  .role-tabs {
-    flex-direction: column;
-  }
-
-  .role-tab {
-    width: 100%;
-    text-align: center;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   Mobile & Small Devices (< 768px)
-   -------------------------------------------------------------------------- */
-@media (max-width: 767px) {
+  /* Navigation Bar Adaptations */
   .mobile-toggle {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -2143,67 +2199,43 @@ section {
     font-size: 0.95rem;
   }
 
-  .cam-rail-track-line {
-    display: none !important;
-  }
-
+  .cam-rail-track-line,
   .timeline-track-line {
     display: none !important;
   }
 
-  .footer-content {
-    flex-direction: column;
-    text-align: center;
+  /* CCTV Panel & Controls Reflow */
+  .cctv-panel {
+    margin-bottom: 16px;
   }
 
-  /* Explicit Mobile Reflow Rules (< 768px) */
-  .container {
+  .cctv-anpr-card {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
     width: 100% !important;
-    max-width: 100% !important;
-    padding-left: clamp(14px, 4vw, 20px) !important;
-    padding-right: clamp(14px, 4vw, 20px) !important;
+    margin-top: 12px !important;
   }
 
-  .hero-grid,
-  .solution-grid,
-  .solution-features,
-  .cctv-two-panel-system,
-  .role-content-display,
-  .problem-visual,
-  .timeline-nodes-grid,
-  .scalability-matrix,
-  .features-grid,
-  .impact-grid,
-  .future-grid,
-  .team-grid,
-  .pipeline-flow {
-    grid-template-columns: 1fr !important;
-    width: 100% !important;
-  }
-
-  .hero-content,
-  .hero-visual,
-  .cctv-panel,
-  .access-privacy-wrapper,
-  .scale-card,
-  .feature-card,
-  .impact-card,
-  .future-card,
-  .team-card {
-    width: 100% !important;
-    min-width: 0 !important;
-  }
-
-  .hero-buttons {
-    width: 100% !important;
+  .cam-preset-btns {
     flex-direction: column !important;
-    align-items: stretch !important;
-  }
-
-  .hero-buttons .btn {
     width: 100% !important;
   }
 
+  /* Access & Privacy Tabs */
+  .role-tabs {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  .role-tab {
+    width: 100% !important;
+    max-width: 360px !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+
+  /* System Architecture Reflow */
   .architecture-diagram {
     flex-direction: column !important;
     width: 100% !important;
@@ -2216,6 +2248,12 @@ section {
 
   .arch-connector {
     transform: rotate(90deg) !important;
+  }
+
+  /* Footer Reflow */
+  .footer-content {
+    flex-direction: column !important;
+    text-align: center !important;
   }
 }
 
