@@ -2032,10 +2032,118 @@ section {
   cursor: pointer;
 }
 
-/* Responsive Media Queries */
+/* ==========================================================================
+   MOBILE TOGGLE BUTTON & RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+.mobile-toggle {
+  display: none;
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid var(--border-cyan);
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  z-index: 1001;
+  transition: var(--transition);
+}
+
+.mobile-toggle:hover {
+  background: rgba(0, 240, 255, 0.2);
+  box-shadow: var(--glow-cyan);
+}
+
+.mobile-toggle .bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 4px 0;
+  background-color: var(--cyan-primary);
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.mobile-toggle.active .bar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.mobile-toggle.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-toggle.active .bar:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Tablet & Smaller Devices (max-width: 992px) */
 @media (max-width: 992px) {
-  .hero-grid, .solution-grid, .role-content-display {
+  .mobile-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cam-network-rail-container {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    max-width: 100%;
+    background: rgba(3, 7, 18, 0.96);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-bottom: 1px solid var(--border-cyan);
+    padding: 24px 20px;
+    transform: translateY(-150%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, visibility 0.35s ease;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
+    z-index: 999;
+  }
+
+  .cam-network-rail-container.mobile-open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .cam-network-links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    max-height: 65vh;
+    overflow-y: auto;
+  }
+
+  .cam-node-item a {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 12px 18px;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(0, 240, 255, 0.15);
+    border-radius: 10px;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .cam-node-label {
+    display: block !important;
+    font-size: 0.9rem;
+    color: var(--text-main);
+  }
+
+  .cam-rail-track-line {
+    display: none;
+  }
+
+  .hero-grid, 
+  .solution-grid, 
+  .role-content-display,
+  .cctv-two-panel-system {
     grid-template-columns: 1fr;
+    gap: 30px;
   }
 
   .pipeline-flow {
@@ -2058,16 +2166,8 @@ section {
     grid-template-columns: 1fr 1fr;
   }
 
-  .nav-links {
-    display: none;
-  }
-
-  .mobile-toggle {
-    display: block;
-  }
-
   .hero-title {
-    font-size: 2.6rem;
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
   }
 
   .architecture-diagram {
@@ -2076,19 +2176,109 @@ section {
 
   .arch-connector {
     transform: rotate(90deg);
+    margin: 12px 0;
+  }
+
+  .hero-visual {
+    height: 380px;
+  }
+
+  .cctv-road-stage {
+    height: 320px;
   }
 }
 
-@media (max-width: 600px) {
-  .problem-visual, .scalability-matrix, .pipeline-flow {
-    grid-template-columns: 1fr;
+/* Mobile Devices (max-width: 768px) */
+@media (max-width: 768px) {
+  section {
+    padding: 60px 0;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .hero {
+    padding-top: 120px;
+    padding-bottom: 60px;
+    min-height: auto;
+  }
+
+  .section-header {
+    margin-bottom: 36px;
   }
 
   .section-title {
-    font-size: 2rem;
+    font-size: clamp(1.75rem, 4vw, 2.4rem);
+  }
+
+  .section-desc {
+    font-size: 1rem;
+  }
+
+  .hero-buttons {
+    width: 100%;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .journey-container {
+    padding: 20px;
+  }
+
+  .journey-quote {
+    font-size: 1.25rem;
+    margin-bottom: 24px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* Small Mobile Phones (max-width: 600px) */
+@media (max-width: 600px) {
+  .problem-visual, 
+  .scalability-matrix, 
+  .pipeline-flow,
+  .future-grid,
+  .team-grid {
+    grid-template-columns: 1fr;
   }
 
   .hero-title {
-    font-size: 2.2rem;
+    font-size: 2rem;
+  }
+
+  .hero-visual {
+    height: 300px;
+  }
+
+  .cctv-road-stage {
+    height: 280px;
+  }
+
+  .draggable-cctv-node {
+    width: 44px;
+    height: 44px;
+  }
+
+  .glass-card {
+    padding: 20px;
+  }
+
+  .modal-box {
+    width: 95%;
+    padding: 16px;
+  }
+
+  .boot-hud-readout {
+    width: 95%;
   }
 }
+

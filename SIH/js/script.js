@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   initSystemBootSequence();
   initCommandRailNavbar();
+  initMobileNavbar();
   initGlobalVehicleBgCanvas();
   initHeroCanvas();
   initCCTVSurveillanceSimulation();
@@ -926,6 +927,34 @@ function initCommandRailNavbar() {
       }
     });
   }
+}
+
+/* Mobile Navbar Overlay Drawer Toggle */
+function initMobileNavbar() {
+  const toggleBtn = document.getElementById('mobile-toggle');
+  const railContainer = document.querySelector('.cam-network-rail-container');
+  const navLinks = document.querySelectorAll('.cam-node-item a');
+
+  if (!toggleBtn || !railContainer) return;
+
+  toggleBtn.addEventListener('click', () => {
+    toggleBtn.classList.toggle('active');
+    railContainer.classList.toggle('mobile-open');
+  });
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      toggleBtn.classList.remove('active');
+      railContainer.classList.remove('mobile-open');
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!toggleBtn.contains(e.target) && !railContainer.contains(e.target)) {
+      toggleBtn.classList.remove('active');
+      railContainer.classList.remove('mobile-open');
+    }
+  });
 }
 
 /* ==========================================================================
