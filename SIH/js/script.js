@@ -151,11 +151,16 @@ function initHeroCanvas() {
   const ctx = canvas.getContext('2d');
 
   function resizeCanvas() {
-    canvas.width = canvas.parentElement.clientWidth;
-    canvas.height = canvas.parentElement.clientHeight;
+    if (!canvas.parentElement) return;
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = Math.round(rect.width);
+    canvas.height = Math.round(rect.height);
   }
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
+  if (window.ResizeObserver && canvas.parentElement) {
+    new ResizeObserver(resizeCanvas).observe(canvas.parentElement);
+  }
 
   // Define camera nodes across canvas
   const cameraNodes = [
@@ -308,18 +313,28 @@ function initCCTVSurveillanceSimulation() {
   const ctxMonitor = monitorCanvas.getContext('2d');
 
   function resizeCanvases() {
-    roadCanvas.width = roadStage.clientWidth;
-    roadCanvas.height = roadStage.clientHeight;
-    monitorCanvas.width = monitorCanvas.parentElement.clientWidth;
-    monitorCanvas.height = monitorCanvas.parentElement.clientHeight;
+    if (roadStage) {
+      const rRect = roadStage.getBoundingClientRect();
+      roadCanvas.width = Math.round(rRect.width);
+      roadCanvas.height = Math.round(rRect.height);
+    }
+    if (monitorCanvas.parentElement) {
+      const mRect = monitorCanvas.parentElement.getBoundingClientRect();
+      monitorCanvas.width = Math.round(mRect.width);
+      monitorCanvas.height = Math.round(mRect.height);
+    }
   }
   resizeCanvases();
   window.addEventListener('resize', resizeCanvases);
+  if (window.ResizeObserver) {
+    if (roadStage) new ResizeObserver(resizeCanvases).observe(roadStage);
+    if (monitorCanvas.parentElement) new ResizeObserver(resizeCanvases).observe(monitorCanvas.parentElement);
+  }
 
   // Camera State
   const camState = {
-    x: 80,
-    y: 40,
+    x: Math.max(10, Math.min(roadStage.clientWidth - 50, Math.round(roadStage.clientWidth * 0.15))),
+    y: 30,
     angle: 0, // in degrees
     isDragging: false,
     dragOffsetX: 0,
@@ -600,21 +615,23 @@ function initCCTVSurveillanceSimulation() {
       ctxMonitor.stroke();
       ctxMonitor.setLineDash([]);
 
-      // Draw Vehicle Centered in Monitor Screen
-      const mCarX = mw * 0.45;
-      const mCarY = mh * 0.65;
-      const mCarW = 110;
-      const mCarH = 50;
+      // Draw Vehicle Centered in Monitor Screen (Scaled to container width)
+      const scale = Math.max(0.5, Math.min(1, mw / 500));
+      const mCarW = Math.round(100 * scale);
+      const mCarH = Math.round(44 * scale);
+      const beamLen = Math.round(90 * scale);
+      const mCarX = Math.max(10, Math.round(mw * 0.35 - mCarW * 0.2));
+      const mCarY = Math.round(mh * 0.65);
 
       // Headlight Beam
-      const hGrad = ctxMonitor.createLinearGradient(mCarX + mCarW, mCarY, mCarX + mCarW + 120, mCarY);
+      const hGrad = ctxMonitor.createLinearGradient(mCarX + mCarW, mCarY, mCarX + mCarW + beamLen, mCarY);
       hGrad.addColorStop(0, 'rgba(0, 240, 255, 0.5)');
       hGrad.addColorStop(1, 'transparent');
       ctxMonitor.beginPath();
-      ctxMonitor.moveTo(mCarX + mCarW, mCarY - 12);
-      ctxMonitor.lineTo(mCarX + mCarW + 120, mCarY - 35);
-      ctxMonitor.lineTo(mCarX + mCarW + 120, mCarY + 35);
-      ctxMonitor.lineTo(mCarX + mCarW, mCarY + 12);
+      ctxMonitor.moveTo(mCarX + mCarW, mCarY - Math.round(12 * scale));
+      ctxMonitor.lineTo(mCarX + mCarW + beamLen, mCarY - Math.round(30 * scale));
+      ctxMonitor.lineTo(mCarX + mCarW + beamLen, mCarY + Math.round(30 * scale));
+      ctxMonitor.lineTo(mCarX + mCarW, mCarY + Math.round(12 * scale));
       ctxMonitor.fillStyle = hGrad;
       ctxMonitor.fill();
 
@@ -623,12 +640,12 @@ function initCCTVSurveillanceSimulation() {
       ctxMonitor.strokeStyle = '#00F0FF';
       ctxMonitor.lineWidth = 2;
       ctxMonitor.beginPath();
-      ctxMonitor.roundRect(mCarX, mCarY - mCarH / 2, mCarW, mCarH, 8);
+      ctxMonitor.roundRect(mCarX, mCarY - mCarH / 2, mCarW, mCarH, Math.max(4, Math.round(8 * scale)));
       ctxMonitor.fill();
       ctxMonitor.stroke();
 
       ctxMonitor.fillStyle = 'rgba(0, 240, 255, 0.3)';
-      ctxMonitor.fillRect(mCarX + 30, mCarY - mCarH / 2 + 6, 40, mCarH - 12);
+      ctxMonitor.fillRect(mCarX + Math.round(25 * scale), mCarY - mCarH / 2 + Math.round(5 * scale), Math.round(35 * scale), mCarH - Math.round(10 * scale));
 
       // Cyan ANPR Bounding Box in Monitor
       const mBoxW = mCarW + 24;
